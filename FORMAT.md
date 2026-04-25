@@ -21,7 +21,7 @@ To understanding the format
 | Tags | Tags | No specific format | If you also keep epub, tags of epub equals to Genre(s) in Kavita |
 | Web | Web Links (Also used for matching in CBLs) | No specific format | No remarks yet |
 | PageCount | Length (This is aggregated on the Series) | Default leave blank | No remarks yet |
-| LanguageISO | Language | ja, zh-tw, zh-cn etc. | No remarks yet |
+| LanguageISO | Language | ja, zh-Hant(Traditional Chinese), zh-Hans(Simplified Chinese) etc. | No remarks yet |
 | Format | Special | Default value is "Digital" | No remarks yet |
 | BlackAndWhite | Kavita's wiki does not define this, but comicinfo define as colour type | Default value is "No" | No remarks yet |
 | Manga | Kavita's wiki does not define this, but comicinfo define as ebook type | Default value is "YesAndRightToLeft" | No remarks yet |
