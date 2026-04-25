@@ -83,7 +83,7 @@ def create_xml(row):
         add_tag(root, tag, row.get(tag))
 
     add_tag(root, "PageCount", "")
-    add_default(root, "LanguageISO", "zh-tw", row.get("LanguageISO"))
+    add_default(root, "LanguageISO", "zh-Hant", row.get("LanguageISO"))
     add_default(root, "Format", "Digital", row.get("Format"))
     add_default(root, "BlackAndWhite", "No", row.get("BlackAndWhite"))
     add_default(root, "Manga", "YesAndRightToLeft", row.get("Manga"))
