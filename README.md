@@ -1,5 +1,5 @@
-## A Basic Guide to Creating EPUB and CBZ E-books
-A basic guide to creating EPUB and CBZ e-books
+## A Basic Tool to Creating CBZ E-books
+A basic Tool to creating CBZ e-books
 
 ## Instructions:
 This script depends on the following modules: python, pandas, openpyxl, and tkinterdnd2.  
