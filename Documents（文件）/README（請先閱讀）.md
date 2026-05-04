@@ -1,5 +1,5 @@
-## 一個基本的epub與cbz電子書製作教學
-一個基本的epub與cbz電子書製作教學
+## 一個基本的cbz電子書製作工具
+一個基本的epub與cbz電子書製作工具
 
 ## 使用說明：
 本腳本仰賴python、pandas、openpyxl、tkinterdnd2等模組。
