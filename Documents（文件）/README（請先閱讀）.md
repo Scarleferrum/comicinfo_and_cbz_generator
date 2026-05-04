@@ -5,14 +5,14 @@
 本腳本仰賴python、pandas、openpyxl、tkinterdnd2等模組。
 需具備基礎的程式知識。
 1. 安裝python
-- 可從python官網安裝，請確保安裝時請記得一併勾上pip
+- 可從python官網下載，請確保安裝時請記得一併勾上pip
 2. 安裝依賴模組
 - 透過終端機執行  
 請複製下列程式碼於終端機執行  
 ```pip install pandas openpyxl tkinterdnd2```  
 報錯請嘗試：  
 ```pip3 install pandas openpyxl tkinterdnd2```
-3. 即可執行comicinfo_gui_v2.4.3.py
+3. 即可執行comicinfo_gui_vX.X.X.py
 4. 選擇不同模式搭配不同資料結構進行壓縮
 
 ### 不同模式說明：
