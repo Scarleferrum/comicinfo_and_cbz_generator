@@ -203,7 +203,7 @@ def sanitize_filename(name: str) -> str:
 class App:
     def __init__(self, root):
         self.root = root
-        self.root.title("comicinfo generator v2.4.4")
+        self.root.title("comicinfo and cbz generator v2.4.4")
 
         self.config = load_config()
         self.input_bg_color = self.config.get("input_bg_color", "#0476D9")
