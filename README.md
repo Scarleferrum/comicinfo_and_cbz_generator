@@ -1,5 +1,5 @@
 ## A Basic Tool to Creating CBZ E-books
-A basic Tool to creating CBZ e-books
+A basic Tool to creating CBZ e-books.
 
 ## Instructions:
 This script depends on the following modules: python, pandas, openpyxl, and tkinterdnd2.  
@@ -21,8 +21,9 @@ If you encounter errors, try:
 
 ### Mode Descriptions:
 1. Mode 1: Suitable for fully organized archives or folders  
-- Supports drag-and-drop for .zip files or folders  
-- Supports browsing and selecting .zip files or folders  
+- Supports drag-and-drop for .zip files or folders
+- Supports browsing and selecting .zip files or folders
+- Supports import and write excel data
 - Supported image formats: .jpeg/.jpg, .png, .webp  
 - Image files must be properly ordered  
     Correct format:  
