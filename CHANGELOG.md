@@ -1,3 +1,9 @@
+- 2026-10-23 comicinfo.py v2.5.0
+1. Fixed compatibility issues with certain WebP files
+2. Added restrictions on hardware resource usage
+3. Adjusted the UI layout to improve overall consistency
+3. Added Excel import support to Mode one, along with the ability to export entered data to Excel
+
 - 2026-04-25 comicinfo.py v2.4.4
 1. Fixed default languageISO and let comicinfo.xml to be compatible with Kavita
 2. Fixed display texts
