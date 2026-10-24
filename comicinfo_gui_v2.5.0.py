@@ -16,6 +16,8 @@ from comicinfo_core.model_v2_5 import ComicMetadata
 from comicinfo_core.pipeline_v2_5 import generate_single_cbz
 from comicinfo_core.resources_v2_5 import get_hardware_capacity
 
+# 拖放區域
+
 try:
     from tkinterdnd2 import DND_FILES, TkinterDnD
 except ImportError:
@@ -25,9 +27,7 @@ except ImportError:
 else:
     DND_AVAILABLE = True
 
-# ====================
-# 設定檔
-# ====================
+# 設定檔清單與預設值
 
 BASE_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = BASE_DIR / "config.json"
@@ -38,8 +38,12 @@ DEFAULT_CONFIG = {
     "memory_limit_percent": 40,
 }
 
-
 def load_config():
+    """加載 config.json
+
+    if config.json is not exist:
+        create default config.json"""
+    
     if not CONFIG_PATH.exists():
         default = dict(DEFAULT_CONFIG)
         with CONFIG_PATH.open("w", encoding="utf-8") as f:
@@ -49,17 +53,21 @@ def load_config():
         stored_config = json.load(config_file)
     return {**DEFAULT_CONFIG, **stored_config}
 
-
 def save_config(cfg):
+    """儲存 config.json
+
+    save_config(cfg: dict)"""
     with CONFIG_PATH.open("w", encoding="utf-8") as config_file:
         json.dump(cfg, config_file, indent=4)
 
+# 必要檔案清單
 
-# =========================
-# 專案根目錄（標準化）
-# =========================
 REQUIRED_FILES = [
+
+    # 設定檔
     BASE_DIR / "config.json",
+
+    # 核心模組
     BASE_DIR / "comicinfo_core" / "__init__.py",
     BASE_DIR / "comicinfo_core" / "fields_v2_5.py",
     BASE_DIR / "comicinfo_core" / "model_v2_5.py",
@@ -68,28 +76,33 @@ REQUIRED_FILES = [
     BASE_DIR / "comicinfo_core" / "excel_v2_5.py",
     BASE_DIR / "comicinfo_core" / "files_v2_5.py",
     BASE_DIR / "comicinfo_core" / "pipeline_v2_5.py",
+
+    # 工具模組
     BASE_DIR / "comicinfo_tools" / "comicinfo_v2_5.py",
     BASE_DIR / "comicinfo_tools" / "compress_v2_5.py",
     BASE_DIR / "comicinfo_tools" / "image_extractor_v2_5.py",
     BASE_DIR / "comicinfo_tools" / "rename_extension_v2_5.py",
 ]
 
-
 def show_error(message: str):
+    """顯示錯誤訊息"""
     root = tk.Tk()
     root.withdraw()
     messagebox.showerror("存在錯誤", message)
     root.destroy()
 
-
 def check_pass(message: str):
+    """顯示檢查完成訊息"""
     root = tk.Tk()
     root.withdraw()
     messagebox.showinfo("檢查完成", message)
     root.destroy()
 
-
 def check_and_create_output_folders(cfg):
+    """檢查並建立輸出資料夾
+    
+    if export folders not exist:
+        create default folders"""
     path_mode = cfg.get("path_mode", "relative")
 
     def resolve(path):
@@ -103,8 +116,13 @@ def check_and_create_output_folders(cfg):
     mode1.mkdir(parents=True, exist_ok=True)
     mode2.mkdir(parents=True, exist_ok=True)
 
-
 def check_and_create_excel():
+    """檢查並建立輸出資料夾
+        
+        if excel not exist:
+            create default excel
+        else:
+            ensure excel columns"""
     excel_path = BASE_DIR / "input_v2.5.xlsx"
 
     if not excel_path.exists():
@@ -112,8 +130,13 @@ def check_and_create_excel():
     else:
         ensure_excel_columns(excel_path, EXCEL_HEADERS)
 
-
 def check_required_files():
+    """檢查必要檔案是否存在，若缺少則顯示錯誤訊息
+
+    if all required files exist:
+        return True
+    else:
+        returnFalse"""
     missing_files = [str(f.name) for f in REQUIRED_FILES if not f.exists()]
 
     if missing_files:
@@ -123,11 +146,8 @@ def check_required_files():
         return False
     return True
 
-
-# =========================
-# 主程式
-# =========================
 def tools_checker():
+    """簡單檢查工具"""
     cfg = load_config()
     check_and_create_output_folders(cfg)
     check_and_create_excel()
@@ -135,13 +155,11 @@ def tools_checker():
         return
     check_pass("檢查完成，所有必要檔案和資料夾都已就緒！")
 
-
-# ====================
 # 圖形化使用者介面
-# ====================
 
 class App:
     def __init__(self, root):
+        """初始化 GUI"""
         self.root = root
         self.root.title("comicinfo and cbz generator v2.5.0")
 
@@ -179,9 +197,8 @@ class App:
 
         self.entries = {}
 
-        # ====================
-        # 模式一
-        # ====================
+        # 模式一 GUI
+
         self.frame1 = tk.LabelFrame(root, text="模式一：生成單一CBZ（支援拖放）")
         self.frame1.pack(fill="both", padx=10, pady=5)
         self.frame1.columnconfigure(tuple(range(1, 5)), weight=1)
@@ -190,7 +207,9 @@ class App:
 
         self.entries = {}
         labels = list(fields.keys())
-        # 兩欄排版
+
+        # metadata fields 左右兩欄排列
+
         for i in range(0, len(labels), 2):
             r = i // 2
 
@@ -213,7 +232,9 @@ class App:
                 self.entries[fields[l2]] = e2
         
         last_row = (len(fields) + 1) // 2
-        # ===== 拖放區 =====
+
+        # 拖放區
+
         tk.Label(self.frame1, text="拖放 ZIP 或資料夾到下方區域").grid(
             row=last_row, column=0, columnspan=2
         )
@@ -238,9 +259,13 @@ class App:
 
         row_offset = last_row + 2
 
+        # 來源路徑與輸入框
+
         tk.Label(self.frame1, text="來源路徑").grid(row=row_offset, column=0)
         self.input_path = tk.Entry(self.frame1, width=60, bg=self.input_bg_color)
         self.input_path.grid(row=row_offset, column=1, columnspan=10)
+
+        # 模式一與功能按鈕
 
         actions = tk.Frame(self.frame1)
         actions.grid(row=row_offset + 1, column=1, columnspan=4, sticky="ew")
@@ -262,33 +287,28 @@ class App:
                 pady=3,
             )
 
-        # ====================
         # 啟用拖放
-        # ====================
 
         if DND_AVAILABLE:
             self.drop_area.drop_target_register(DND_FILES)
             self.drop_area.dnd_bind("<<Drop>>", self.on_drop)
 
-        # ====================
         # 模式二
-        # ====================
+        
         self.frame2 = tk.LabelFrame(root, text="模式二：批量模式")
         self.frame2.pack(fill="both", padx=10, pady=5)
 
         self.init_mode2_extensions()
 
-        # =====================
         # 底部按鈕
-        # =====================
+
         bottom = tk.Frame(root)
         bottom.pack(pady=10)
 
         tk.Button(bottom, text="設定", command=self.open_settings).pack(side="left")
-
-    # =====================
+    
     # 拖放
-    # =====================
+    
     @staticmethod
     def _bounded_setting(value, default: int, maximum: int) -> int:
         try:
@@ -312,9 +332,8 @@ class App:
         self.input_path.delete(0, tk.END)
         self.input_path.insert(0, path)
 
-    # =====================
     # 模式二 extensions
-    # =====================
+    
     def init_mode2_extensions(self):
 
         extensions = [
@@ -419,7 +438,7 @@ class App:
             src = self.input_path.get().strip()
 
             if not data.get("Title") or not src:
-                raise ValueError("Title 或來源不可為空")
+                raise ValueError("「標題」或「來源」不可為空")
             output_root = self.resolve_path(self.mode1_output_dir)
 
             generate_single_cbz(src, data, output_root)
