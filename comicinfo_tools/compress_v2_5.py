@@ -13,7 +13,6 @@ from comicinfo_core.pipeline_v2_5 import run_batch_compress
 
 BASE_DIR = _PROJECT_DIR
 
-
 def zip_folder(folder_path, zip_path):
     try:
         _zip_folder(folder_path, zip_path, exclude_system_files=True)
@@ -21,11 +20,9 @@ def zip_folder(folder_path, zip_path):
     except Exception as e:
         return {"status": "error", "folder": folder_path, "error": str(e)}
 
-
 def zip_folder_gui(folder, output_dir):
     zip_path = Path(output_dir) / (Path(folder).name + ".zip")
     return str(_zip_folder(folder, zip_path, exclude_system_files=False))
-
 
 def run_compress(
     input_dir=None,
@@ -56,7 +53,6 @@ def run_compress(
         memory_limit_percent=memory_limit_percent,
     )
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Compress subfolders into zip files")
 
@@ -68,7 +64,6 @@ def parse_args():
 
     return parser.parse_args()
 
-
 def output_result(result, fmt):
     if fmt == "json":
         print(json.dumps(result, ensure_ascii=False))
@@ -76,7 +71,6 @@ def output_result(result, fmt):
         print(f"[{result['status'].upper()}]")
         if "data" in result:
             print(result["data"])
-
 
 def run(context=None):
     """GUI and pipeline entry point."""
@@ -104,7 +98,6 @@ def run(context=None):
         memory_limit_percent=memory_limit_percent,
     )
 
-
 def main():
     args = parse_args()
 
@@ -131,7 +124,6 @@ def main():
         output_result(result, args.output_format)
 
     return result
-
 
 if __name__ == "__main__":
     main()
