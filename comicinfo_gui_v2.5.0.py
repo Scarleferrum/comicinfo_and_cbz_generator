@@ -147,7 +147,11 @@ def check_required_files():
     return True
 
 def tools_checker():
-    """簡單檢查工具"""
+    """簡單檢查工具
+    if all required files exist:
+        show check pass message
+    else:
+        show error message"""
     cfg = load_config()
     check_and_create_output_folders(cfg)
     check_and_create_excel()
@@ -429,9 +433,8 @@ class App:
         except Exception as exc:
             messagebox.showerror("錯誤", str(exc))
 
-    # =====================
     # 模式一
-    # =====================
+
     def run_mode1(self):
         try:
             data = ComicMetadata({k: e.get().strip() for k, e in self.entries.items()})
@@ -513,9 +516,8 @@ class App:
             entry.delete(0, tk.END)
             entry.insert(0, values.get(key, ""))
 
-    # =====================
     # utils
-    # =====================
+
     def resolve_path(self, path):
         """Resolve configured paths relative to the application directory."""
         if self.path_mode == "absolute":
@@ -777,9 +779,8 @@ class App:
             command=save_resource_limits,
         ).grid(row=len(limit_rows) + 2, column=0, columnspan=2, pady=8)
 
-# =====================
 # main
-# =====================
+
 if __name__ == "__main__":
     if DND_AVAILABLE:
         root = TkinterDnD.Tk()
